@@ -1,23 +1,26 @@
-from mcp.server.fastmcp import FastMCP
-from docx import Document
 import os
-import csv
 import json
+import csv
 from datetime import datetime
+from pathlib import Path
+from docx import Document
+
+from mcp.server.fastmcp import FastMCP
 
 # -------------------------
-# Base paths
+# Paths
 # -------------------------
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = Path(__file__).parent
 
-RESUME_DIR = os.path.join(BASE_DIR, "resumes")
-JOBS_FILE = os.path.join(BASE_DIR, "jobs", "jobs.json")
+RESUME_DIR = BASE_DIR / "resumes"
+JOBS_FILE = BASE_DIR / "jobs" / "jobs.json"
+DECISIONS_FILE = BASE_DIR / "decisions" / "job_decisions.json"
+APPLICATIONS_FILE = BASE_DIR / "applications.csv"
 
-DECISIONS_DIR = os.path.join(BASE_DIR, "decisions")
-DECISIONS_FILE = os.path.join(DECISIONS_DIR, "job_decisions.json")
-
-ALLOWED_LOCATIONS = ["usa", "united states", "india", "remote - usa", "remote usa"]
+# -------------------------
+# MCP Init
+# -------------------------
 
 mcp = FastMCP("Job Application MCP")
 
@@ -27,8 +30,10 @@ mcp = FastMCP("Job Application MCP")
 
 @mcp.tool()
 def list_resumes():
-    """List available resumes (without extensions)."""
-    if not os.path.exists(RESUME_DIR):
+    """
+    List available resumes (without extensions)
+    """
+    if not RESUME_DIR.exists():
         return []
 
     names = set()
@@ -36,7 +41,8 @@ def list_resumes():
         if file.endswith(".txt") or file.endswith(".docx"):
             names.add(os.path.splitext(file)[0])
 
-    return sorted(names)
+    return sorted(list(names))
+
 
 # -------------------------
 # Resume Reading
@@ -44,76 +50,159 @@ def list_resumes():
 
 @mcp.tool()
 def read_resume(resume_name: str):
-    """Read a resume by name (.txt or .docx)."""
-    base_path = os.path.join(RESUME_DIR, resume_name)
+    """
+    Read a resume by name (supports .txt and .docx)
+    """
+    base_path = RESUME_DIR / resume_name
 
-    txt_path = base_path + ".txt"
-    docx_path = base_path + ".docx"
+    txt_path = base_path.with_suffix(".txt")
+    docx_path = base_path.with_suffix(".docx")
 
-    if os.path.exists(txt_path):
-        with open(txt_path, "r", encoding="utf-8") as f:
-            return f.read()
+    if txt_path.exists():
+        return txt_path.read_text(encoding="utf-8")
 
-    if os.path.exists(docx_path):
+    if docx_path.exists():
         doc = Document(docx_path)
         return "\n".join(p.text for p in doc.paragraphs if p.text.strip())
 
     return f"Resume '{resume_name}' not found."
 
-# -------------------------
-# Job Analysis
-# -------------------------
-
-@mcp.tool()
-def analyze_job(job_description: str):
-    return {
-        "instruction_for_ai": (
-            "Analyze the job description and decide which resume "
-            "from list_resumes() is the best fit."
-        ),
-        "job_description": job_description
-    }
 
 # -------------------------
-# Resume Tailoring
+# Job Evaluation (single job)
 # -------------------------
 
 @mcp.tool()
-def tailor_resume(resume_name: str, job_description: str):
-    resume = read_resume(resume_name)
-
-    return {
-        "instruction_for_ai": (
-            "Using ONLY the provided resume content, "
-            "rewrite or prioritize bullets to best match the job description. "
-            "Do NOT add new experience or skills."
-        ),
-        "resume": resume,
-        "job_description": job_description
+def evaluate_job(payload: dict):
+    """
+    Claude-facing evaluation tool.
+    Claude MUST return JSON:
+    {
+      "decision": "APPLY | SAVE | SKIP",
+      "resume": "resume_name_or_null",
+      "reason": "short justification"
     }
+    """
+    return payload
+
 
 # -------------------------
-# Application Strategy
+# Evaluate ALL jobs (PERSISTENT)
 # -------------------------
 
 @mcp.tool()
-def application_strategy(job_description: str):
-    return {
-        "steps_for_ai": [
-            "Call list_resumes()",
-            "Analyze the job description",
-            "Choose ONE resume",
-            "Call read_resume(resume_name)",
-            "Call tailor_resume(resume_name, job_description)",
-            "Generate resume bullets and cover letter"
-        ],
-        "rules": [
-            "Use only ONE resume",
-            "Do not invent experience",
-            "Do not mix resumes"
-        ],
-        "job_description": job_description
-    }
+def evaluate_all_jobs():
+    """
+    Evaluate all jobs and persist decisions to decisions/job_decisions.json
+    """
+
+    if not JOBS_FILE.exists():
+        return "jobs.json not found. Run collect_jobs.py first."
+
+    with open(JOBS_FILE, "r", encoding="utf-8") as f:
+        jobs = json.load(f)
+
+    resumes = list_resumes()
+    results = []
+
+    for job in jobs:
+        location_raw = (job.get("location") or "").lower()
+
+        # Location filter: USA + India only
+        allowed = any(
+            kw in location_raw
+            for kw in ["united states", "usa", "india"]
+        )
+
+        if not allowed:
+            results.append({
+                **job,
+                "decision": "SKIP",
+                "resume": None,
+                "reason": "Location not in USA or India"
+            })
+            continue
+
+        # Ask Claude to decide
+        ai_request = {
+            "instruction": (
+                "You are an ATS-style evaluator.\n"
+                "Return ONLY valid JSON with this schema:\n"
+                "{"
+                "\"decision\": \"APPLY | SAVE | SKIP\", "
+                "\"resume\": \"resume_name_or_null\", "
+                "\"reason\": \"short justification\""
+                "}\n\n"
+                "Rules:\n"
+                "- APPLY only for strong matches\n"
+                "- SAVE for partial matches\n"
+                "- SKIP for weak or senior mismatch\n"
+                "- Resume must come from the provided list\n"
+                "- Do NOT invent experience"
+            ),
+            "job": job,
+            "available_resumes": resumes
+        }
+
+        response = evaluate_job(ai_request)
+
+        # Defensive parsing
+        decision = response.get("decision", "SKIP")
+        resume = response.get("resume")
+        reason = response.get("reason", "No reason provided")
+
+        results.append({
+            **job,
+            "decision": decision,
+            "resume": resume,
+            "reason": reason
+        })
+
+    # Persist results
+    DECISIONS_FILE.parent.mkdir(exist_ok=True)
+    with open(DECISIONS_FILE, "w", encoding="utf-8") as f:
+        json.dump(results, f, indent=2)
+
+    return f"Evaluated {len(results)} jobs. Decisions saved to {DECISIONS_FILE}"
+
+
+# -------------------------
+# Application Logging
+# -------------------------
+
+@mcp.tool()
+def log_application(
+    company: str,
+    role: str,
+    resume_name: str,
+    status: str = "Applied",
+    notes: str = ""
+):
+    """
+    Log a job application to applications.csv
+    """
+    write_header = not APPLICATIONS_FILE.exists()
+
+    with open(APPLICATIONS_FILE, "a", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+
+        if write_header:
+            writer.writerow([
+                "date", "company", "role",
+                "resume", "status", "notes"
+            ])
+
+        writer.writerow([
+            datetime.now().strftime("%Y-%m-%d"),
+            company,
+            role,
+            resume_name,
+            status,
+            notes
+        ])
+
+    return "Application logged successfully."
+
 
 # -------------------------
 # Cover Letter
@@ -140,122 +229,6 @@ def generate_cover_letter(
         "job_description": job_description
     }
 
-# -------------------------
-# Log Application
-# -------------------------
-
-@mcp.tool()
-def log_application(
-    company: str,
-    role: str,
-    resume_name: str,
-    status: str = "Applied",
-    notes: str = ""
-):
-    with open(os.path.join(BASE_DIR, "applications.csv"), "a", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow([
-            datetime.now().strftime("%Y-%m-%d"),
-            company,
-            role,
-            resume_name,
-            status,
-            notes
-        ])
-
-    return "Application logged successfully."
-
-# -------------------------
-# Follow-up Email
-# -------------------------
-
-@mcp.tool()
-def generate_follow_up_email(
-    company: str,
-    role: str,
-    days_since_application: int
-):
-    return {
-        "instruction_for_ai": (
-            "Write a short, professional follow-up email. "
-            "Be polite and confident. "
-            "Do not sound desperate."
-        ),
-        "company": company,
-        "role": role,
-        "days_since_application": days_since_application
-    }
-
-# -------------------------
-# Load Jobs
-# -------------------------
-
-@mcp.tool()
-def load_jobs():
-    if not os.path.exists(JOBS_FILE):
-        return {"error": f"jobs.json not found at {JOBS_FILE}"}
-
-    with open(JOBS_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-# -------------------------
-# Evaluate Single Job
-# -------------------------
-
-@mcp.tool()
-def evaluate_job(job: dict):
-    location = (job.get("location") or "").lower()
-
-    if not any(loc in location for loc in ALLOWED_LOCATIONS):
-        return {
-            "decision": "SKIP",
-            "reason": "Job location is outside allowed regions (USA / India)"
-        }
-
-    return {
-        "instruction_for_ai": (
-            "Evaluate this job against available resumes. "
-            "Decide APPLY, SAVE, or SKIP. "
-            "Choose ONE resume if APPLY or SAVE. "
-            "Do not invent experience."
-        ),
-        "job": job
-    }
-
-# -------------------------
-# Evaluate All Jobs → decisions/job_decisions.json
-# -------------------------
-
-@mcp.tool()
-def evaluate_all_jobs():
-    if not os.path.exists(JOBS_FILE):
-        return {"error": "jobs.json not found"}
-
-    with open(JOBS_FILE, "r", encoding="utf-8") as f:
-        jobs = json.load(f)
-
-    os.makedirs(DECISIONS_DIR, exist_ok=True)
-
-    decisions = []
-
-    for job in jobs:
-        decisions.append({
-            "job_id": job.get("id"),
-            "company": job.get("company"),
-            "role": job.get("title"),
-            "location": job.get("location"),
-            "apply_url": job.get("apply_url"),
-            "status": "PENDING_AI_REVIEW"
-        })
-
-    with open(DECISIONS_FILE, "w", encoding="utf-8") as f:
-        json.dump(decisions, f, indent=2)
-
-    return {
-        "message": "Job decisions file created",
-        "jobs_processed": len(decisions),
-        "output_file": DECISIONS_FILE
-    }
 
 # -------------------------
 # Server Start
