@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+
+# Environment variables
+.env
+
+# OS / Editor
+.DS_Store
+.vscode/
+
+# Logs
+*.log
+
+# Generated files (optional – we can keep JSON if you want)
+# decisions/job_decisions.json
