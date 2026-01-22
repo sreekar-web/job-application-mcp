@@ -1,0 +1,14 @@
+{
+  "allowed_regions": [
+    "united states",
+    "usa",
+    "canada",
+    "india"
+  ],
+  "excluded_regions": [
+    "restricted",
+    "visa_sponsorship_required"
+  ],
+  "remote_ok": true,
+  "notes": "Adjust allowed_regions and remote_ok based on your visa/work auth status. 'remote_ok' allows positions marked as fully remote."
+}

@@ -1,0 +1,56 @@
+{
+  "greenhouse": {
+    "name": "Greenhouse ATS",
+    "selectors": {
+      "email": ["input[name*='email']", "input[type='email']"],
+      "phone": ["input[name*='phone']", "input[name*='mobile']"],
+      "location": ["input[name*='location']", "select[name*='location']"],
+      "resume": ["input[type='file'][name*='resume']", "input[type='file'][name*='attachment']"],
+      "first_name": ["input[name*='first_name']", "input[placeholder*='First']"],
+      "last_name": ["input[name*='last_name']", "input[placeholder*='Last']"],
+      "linkedin": ["input[name*='linkedin']", "input[placeholder*='linkedin']"],
+      "website": ["input[name*='website']", "input[name*='portfolio']"]
+    },
+    "ambiguous_fields": ["salary", "visa_status", "notice_period", "contract_type", "experience_years"],
+    "submit_selector": "button[type='submit']"
+  },
+  "lever": {
+    "name": "Lever ATS",
+    "selectors": {
+      "email": ["input[name='email']", "input[type='email']"],
+      "phone": ["input[name='phone']"],
+      "location": ["select[name='location']", "input[name='location']"],
+      "resume": ["input[type='file'][name*='resume']"],
+      "first_name": ["input[name='firstName']"],
+      "last_name": ["input[name='lastName']"],
+      "linkedin": ["input[name='linkedin']"],
+      "website": ["input[name='website']"]
+    },
+    "ambiguous_fields": ["visa_sponsorship", "willing_to_relocate", "years_experience", "salary_expectations"],
+    "submit_selector": "button[type='submit']"
+  },
+  "standard_html": {
+    "name": "Standard HTML Form",
+    "selectors": {
+      "email": ["input[type='email']", "input[name*='email']"],
+      "phone": ["input[type='tel']", "input[name*='phone']"],
+      "resume": ["input[type='file']"],
+      "first_name": ["input[name*='first']"],
+      "last_name": ["input[name*='last']"],
+      "linkedin": ["input[placeholder*='linkedin']"],
+      "website": ["input[name*='website']"]
+    },
+    "ambiguous_fields": ["salary", "visa", "location", "notice_period"],
+    "submit_selector": "button[type='submit']:not([disabled])"
+  },
+  "field_mapping": {
+    "email": "user_email",
+    "phone": "phone_number",
+    "first_name": "first_name",
+    "last_name": "last_name",
+    "linkedin": "linkedin_url",
+    "website": "portfolio_url",
+    "location": "preferred_location",
+    "resume": "resume_path"
+  }
+}

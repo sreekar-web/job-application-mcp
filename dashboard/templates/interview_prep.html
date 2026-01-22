@@ -1,0 +1,540 @@
+{% extends "base.html" %}
+
+{% block title %}Interview Prep{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <!-- Page Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <h1 class="mb-1">Interview Preparation</h1>
+      <p class="text-muted">Manage interviews, access prep materials, and track interview progress</p>
+    </div>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="row mb-4">
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h6 class="text-muted mb-1">Total Interviews</h6>
+              <h3 id="total-interviews" class="mb-0">0</h3>
+            </div>
+            <span class="badge bg-info">📅</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h6 class="text-muted mb-1">Upcoming</h6>
+              <h3 id="upcoming-interviews" class="mb-0">0</h3>
+            </div>
+            <span class="badge bg-warning">⏰</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h6 class="text-muted mb-1">Completed</h6>
+              <h3 id="completed-interviews" class="mb-0">0</h3>
+            </div>
+            <span class="badge bg-success">✓</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h6 class="text-muted mb-1">Success Rate</h6>
+              <h3 id="success-rate" class="mb-0">0%</h3>
+            </div>
+            <span class="badge bg-success">🎯</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Two-Column Layout -->
+  <div class="row">
+    <!-- Left Column: Upcoming Interviews & Schedule New -->
+    <div class="col-lg-8">
+      <!-- Schedule New Interview -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white border-bottom">
+          <h5 class="mb-0">Schedule New Interview</h5>
+        </div>
+        <div class="card-body">
+          <form id="schedule-interview-form">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Company</label>
+                <input type="text" class="form-control" name="company" placeholder="Google, Stripe, etc." required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Role</label>
+                <input type="text" class="form-control" name="role" placeholder="Senior Backend Engineer" required>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Interview Type</label>
+                <select class="form-control" name="interview_type" required>
+                  <option value="">Select type...</option>
+                  <option value="phone_screen">Phone Screen</option>
+                  <option value="video_interview">Video Interview</option>
+                  <option value="technical">Technical Assessment</option>
+                  <option value="behavioral">Behavioral Interview</option>
+                  <option value="on_site">On-Site Interview</option>
+                  <option value="panel">Panel Interview</option>
+                  <option value="final_round">Final Round</option>
+                  <option value="debrief">Debrief</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Scheduled Date & Time</label>
+                <input type="datetime-local" class="form-control" name="scheduled_at" required>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Interviewer Name</label>
+                <input type="text" class="form-control" name="interviewer" placeholder="e.g., John Smith">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Location/Link</label>
+                <input type="text" class="form-control" name="location" placeholder="Zoom link or office address">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Notes</label>
+              <textarea class="form-control" name="notes" rows="2" placeholder="Any additional details..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-calendar-plus"></i> Schedule Interview
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Upcoming Interviews -->
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-bottom">
+          <h5 class="mb-0">Upcoming Interviews</h5>
+        </div>
+        <div class="card-body p-0">
+          <div id="upcoming-list" class="list-group list-group-flush">
+            <div class="list-group-item text-center py-4 text-muted">
+              <p class="mb-0">No upcoming interviews scheduled</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Quick Actions & Interview Types -->
+    <div class="col-lg-4">
+      <!-- Quick Actions -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white border-bottom">
+          <h5 class="mb-0">Quick Actions</h5>
+        </div>
+        <div class="card-body">
+          <button class="btn btn-outline-primary w-100 mb-2" data-bs-toggle="modal" data-bs-target="#prep-materials-modal">
+            <i class="bi bi-book"></i> View Prep Materials
+          </button>
+          <button class="btn btn-outline-info w-100 mb-2" data-bs-toggle="modal" data-bs-target="#company-research-modal">
+            <i class="bi bi-search"></i> Company Research Template
+          </button>
+          <button class="btn btn-outline-success w-100 mb-2" data-bs-toggle="modal" data-bs-target="#elevator-pitch-modal">
+            <i class="bi bi-mic"></i> Generate Elevator Pitch
+          </button>
+          <button class="btn btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#email-template-modal">
+            <i class="bi bi-envelope"></i> Email Templates
+          </button>
+        </div>
+      </div>
+
+      <!-- Interview Type Tips -->
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-bottom">
+          <h5 class="mb-0">Interview Type Tips</h5>
+        </div>
+        <div class="card-body">
+          <div class="accordion accordion-flush" id="interview-tips">
+            <div class="accordion-item border-0">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#tips-phone">
+                  📞 Phone Screen
+                </button>
+              </h2>
+              <div id="tips-phone" class="accordion-collapse collapse" data-bs-parent="#interview-tips">
+                <div class="accordion-body p-3 text-sm">
+                  <ul class="mb-0 small">
+                    <li>Keep it to 30-45 minutes</li>
+                    <li>Have your resume nearby</li>
+                    <li>Prepare 3-4 good questions</li>
+                    <li>Focus on fit and alignment</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item border-0">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#tips-technical">
+                  💻 Technical Interview
+                </button>
+              </h2>
+              <div id="tips-technical" class="accordion-collapse collapse" data-bs-parent="#interview-tips">
+                <div class="accordion-body p-3 text-sm">
+                  <ul class="mb-0 small">
+                    <li>Review data structures and algorithms</li>
+                    <li>Practice coding on whiteboard/shared screen</li>
+                    <li>Think out loud, explain your approach</li>
+                    <li>Test edge cases and optimizations</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item border-0">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#tips-behavioral">
+                  🎯 Behavioral Interview
+                </button>
+              </h2>
+              <div id="tips-behavioral" class="accordion-collapse collapse" data-bs-parent="#interview-tips">
+                <div class="accordion-body p-3 text-sm">
+                  <ul class="mb-0 small">
+                    <li>Use STAR method (Situation, Task, Action, Result)</li>
+                    <li>Prepare 5-7 strong stories</li>
+                    <li>Focus on your impact and learnings</li>
+                    <li>Be genuine and specific with examples</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item border-0">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#tips-onsite">
+                  🏢 On-Site Interview
+                </button>
+              </h2>
+              <div id="tips-onsite" class="accordion-collapse collapse" data-bs-parent="#interview-tips">
+                <div class="accordion-body p-3 text-sm">
+                  <ul class="mb-0 small">
+                    <li>Arrive 10-15 minutes early</li>
+                    <li>Dress professionally</li>
+                    <li>Bring extra copies of resume</li>
+                    <li>Plan travel route, check parking</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals -->
+
+  <!-- Prep Materials Modal -->
+  <div class="modal fade" id="prep-materials-modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Interview Prep Materials</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-4">
+            <h6>STAR Method</h6>
+            <p class="small text-muted">Use this framework for behavioral questions (2-3 minutes):</p>
+            <ul class="small">
+              <li><strong>Situation:</strong> Set the context, provide background</li>
+              <li><strong>Task:</strong> Describe what needed to be accomplished</li>
+              <li><strong>Action:</strong> Explain what YOU did specifically</li>
+              <li><strong>Result:</strong> Share the outcome and your learnings</li>
+            </ul>
+          </div>
+
+          <div class="mb-4">
+            <h6>Common Questions by Role</h6>
+            <p class="small text-muted">Select your role to see relevant questions:</p>
+            <div class="btn-group w-100 mb-3" role="group">
+              <input type="radio" class="btn-check" name="role-filter" id="backend-role" value="backend_engineer">
+              <label class="btn btn-outline-primary" for="backend-role">Backend</label>
+              
+              <input type="radio" class="btn-check" name="role-filter" id="data-role" value="data_engineer">
+              <label class="btn btn-outline-primary" for="data-role">Data</label>
+              
+              <input type="radio" class="btn-check" name="role-filter" id="integration-role" value="integration_engineer">
+              <label class="btn btn-outline-primary" for="integration-role">Integration</label>
+            </div>
+            <div id="role-questions" class="small">
+              <p class="text-muted">Select a role above to view questions</p>
+            </div>
+          </div>
+
+          <div>
+            <h6>Interview Tips Checklist</h6>
+            <div class="form-check small">
+              <input class="form-check-input" type="checkbox" id="tip1">
+              <label class="form-check-label" for="tip1">Research the company (mission, recent news, products)</label>
+            </div>
+            <div class="form-check small">
+              <input class="form-check-input" type="checkbox" id="tip2">
+              <label class="form-check-label" for="tip2">Review the job description and match skills</label>
+            </div>
+            <div class="form-check small">
+              <input class="form-check-input" type="checkbox" id="tip3">
+              <label class="form-check-label" for="tip3">Prepare 5-7 strong STAR stories</label>
+            </div>
+            <div class="form-check small">
+              <input class="form-check-input" type="checkbox" id="tip4">
+              <label class="form-check-label" for="tip4">Practice answers out loud</label>
+            </div>
+            <div class="form-check small">
+              <input class="form-check-input" type="checkbox" id="tip5">
+              <label class="form-check-label" for="tip5">Prepare 3-5 questions to ask interviewer</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Company Research Modal -->
+  <div class="modal fade" id="company-research-modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Company Research Template</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label"><strong>Company Overview</strong></label>
+              <textarea class="form-control form-control-sm" rows="3" placeholder="What does the company do? Who are the customers? What's their business model?"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label"><strong>Company Culture & Team</strong></label>
+              <textarea class="form-control form-control-sm" rows="3" placeholder="What are their values? Team size? Work-life balance? Growth opportunities?"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label"><strong>Financials & Growth</strong></label>
+              <textarea class="form-control form-control-sm" rows="3" placeholder="Revenue? Funding? Profitability? Growth trajectory?"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label"><strong>Recent News & Initiatives</strong></label>
+              <textarea class="form-control form-control-sm" rows="3" placeholder="Recent launches? Partnerships? Acquisitions? Leadership changes?"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label"><strong>Competitive Landscape</strong></label>
+              <textarea class="form-control form-control-sm" rows="3" placeholder="Key competitors? Unique advantages? Market position?"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label"><strong>Your Manager & Team</strong></label>
+              <textarea class="form-control form-control-sm" rows="3" placeholder="Who will be your manager? Team composition? Team challenges?"></textarea>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">
+              Save Research
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Elevator Pitch Modal -->
+  <div class="modal fade" id="elevator-pitch-modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Generate Your Elevator Pitch</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="elevator-pitch-form">
+            <div class="mb-3">
+              <label class="form-label">Your Name</label>
+              <input type="text" class="form-control" name="name" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Current Role/Title</label>
+              <input type="text" class="form-control" name="current_role" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Key Achievements (comma-separated)</label>
+              <textarea class="form-control" name="achievements" rows="3" placeholder="e.g., Led team of 5, Built API handling 1M+ requests/day, Reduced latency by 40%"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Career Goal</label>
+              <input type="text" class="form-control" name="goal" placeholder="What do you want to achieve next?">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Generate Pitch</button>
+          </form>
+
+          <div id="pitch-result" class="mt-3 p-3 bg-light rounded d-none">
+            <h6>Your 2-Minute Pitch:</h6>
+            <p id="pitch-text" class="mb-0"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email Templates Modal -->
+  <div class="modal fade" id="email-template-modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Email Templates</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="btn-group w-100 mb-3" role="group">
+            <input type="radio" class="btn-check" name="email-type" id="email-reminder" value="reminder" checked>
+            <label class="btn btn-outline-primary" for="email-reminder">Pre-Interview Reminder</label>
+            
+            <input type="radio" class="btn-check" name="email-type" id="email-thank-you" value="thank_you">
+            <label class="btn btn-outline-primary" for="email-thank-you">Thank You Email</label>
+            
+            <input type="radio" class="btn-check" name="email-type" id="email-follow-up" value="follow_up">
+            <label class="btn btn-outline-primary" for="email-follow-up">Follow-up Email</label>
+          </div>
+
+          <div id="email-content" class="p-3 border rounded bg-light">
+            <h6 id="email-subject">Subject: Interview Reminder</h6>
+            <div class="mt-3" style="font-family: monospace; font-size: 0.9rem; white-space: pre-wrap; line-height: 1.6;" id="email-body">
+              [Email content will appear here]
+            </div>
+          </div>
+
+          <button class="btn btn-outline-success mt-3 w-100">
+            <i class="bi bi-clipboard"></i> Copy to Clipboard
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .accordion-button:not(.collapsed) {
+    background-color: #f0f8ff;
+    color: #667eea;
+  }
+
+  .list-group-item {
+    transition: all 0.3s ease;
+  }
+
+  .list-group-item:hover {
+    background-color: #f8f9fa;
+  }
+
+  .interview-card {
+    border-left: 4px solid #667eea;
+  }
+
+  .interview-card.completed {
+    border-left-color: #2ecc71;
+  }
+
+  .interview-card.pending {
+    border-left-color: #f39c12;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  loadInterviewStats();
+  loadUpcomingInterviews();
+
+  // Form submission
+  document.getElementById('schedule-interview-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    
+    // TODO: Call API to schedule interview
+    console.log('Schedule interview:', Object.fromEntries(formData));
+    alert('Interview scheduled! (API integration coming)');
+    e.target.reset();
+  });
+
+  // Email template switching
+  document.querySelectorAll('input[name="email-type"]').forEach(input => {
+    input.addEventListener('change', () => {
+      updateEmailTemplate(input.value);
+    });
+  });
+});
+
+function loadInterviewStats() {
+  // TODO: Fetch from API /api/interview-stats
+  document.getElementById('total-interviews').textContent = '0';
+  document.getElementById('upcoming-interviews').textContent = '0';
+  document.getElementById('completed-interviews').textContent = '0';
+  document.getElementById('success-rate').textContent = '0%';
+}
+
+function loadUpcomingInterviews() {
+  // TODO: Fetch from API /api/interviews?upcoming=true
+  const list = document.getElementById('upcoming-list');
+  list.innerHTML = `<div class="list-group-item text-center py-4 text-muted">
+    <p class="mb-0">No upcoming interviews scheduled</p>
+  </div>`;
+}
+
+function updateEmailTemplate(type) {
+  // TODO: Fetch actual email template from API
+  const templates = {
+    reminder: {
+      subject: 'Interview Reminder - [Company] [Role]',
+      body: 'Hi [Name],\n\nThis is a friendly reminder about your upcoming interview...'
+    },
+    thank_you: {
+      subject: 'Thank You - [Company] Interview',
+      body: 'Dear [Name],\n\nThank you for taking the time to interview with me...'
+    },
+    follow_up: {
+      subject: 'Following Up - [Company] [Role] Application',
+      body: 'Hi [Name],\n\nI wanted to follow up on my application...'
+    }
+  };
+
+  const template = templates[type];
+  document.getElementById('email-subject').textContent = 'Subject: ' + template.subject;
+  document.getElementById('email-body').textContent = template.body;
+}
+</script>
+{% endblock %}

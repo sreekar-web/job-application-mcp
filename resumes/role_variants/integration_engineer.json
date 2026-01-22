@@ -13,9 +13,45 @@
     "AS2",
     "MFT"
   ],
-  "allowed_experience_titles": [],
+  "allowed_experience_titles": [
+    "EDI Analyst",
+    "Integration Engineer",
+    "EDI Developer",
+    "Middleware Engineer"
+  ],
   "excluded_skills": [
     "React",
     "Frontend"
-  ]
+  ],
+  "resume_sections": {
+    "summary": "Integration specialist with deep expertise in EDI (X12, EDIFACT) and B2B messaging protocols (AS2, SFTP). Proven ability to design, implement, and maintain complex trading partner networks. Strong background in SEEBURGER BIS platform and end-to-end integration workflows.",
+    "experience": [
+      {
+        "title": "EDI Analyst",
+        "company": "Zentech Consulting Inc",
+        "duration": "Jul 2025 – Present",
+        "location": "Texas, USA",
+        "domain": "EDI / B2B Integration",
+        "responsibilities": [
+          "Designed and built end-to-end EDI interfaces using SEEBURGER BIS",
+          "Configured AS2 connections including certificates, encryption, and partner relations",
+          "Established and maintained FTP, SFTP (client/server), and AS2 connections",
+          "Developed EDI mappings for XML, EDIFACT, and ANSI X12 using BIC Mapping Designer",
+          "Built mappings for ORDERS, DESADV, INVOIC, 850, 856, and 810 document types",
+          "Handled partner onboarding including requirement analysis, testing, and go-live",
+          "Monitored EDI message flow and resolved transmission, mapping, and compliance issues"
+        ]
+      }
+    ],
+    "education": [
+      "Master's in Computer Science, University of Alabama at Birmingham, USA (Jan 2023 – Apr 2025) — GPA: 3.30/4.00",
+      "Bachelor of Technology in Computer Science, Jain University, Bangalore, India (Jan 2019 – Jul 2022) — CGPA: 7.89/10",
+      "Key Subjects: Network Security, Cyber Risk Management"
+    ],
+    "certifications": [
+      "AWS Certified Cloud Practitioner (CLF-C02)",
+      "AWS Certified Developer Associate (DVA-C02)",
+      "SEEBURGER BIS Platform Expertise"
+    ]
+  }
 }

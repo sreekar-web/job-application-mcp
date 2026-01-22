@@ -13,10 +13,61 @@
     "SQL",
     "REST"
   ],
-  "allowed_experience_titles": [],
+  "allowed_experience_titles": [
+    "Software Engineer",
+    "Junior Software Engineer",
+    "Software Engineer Intern",
+    "Backend Engineer"
+  ],
   "excluded_skills": [
     "Kubernetes",
     "Terraform",
     "Selenium"
-  ]
+  ],
+  "resume_sections": {
+    "summary": "Software engineer with hands-on experience building production backend systems using Python, JavaScript, and SQL. Proven track record delivering scalable solutions in SaaS and B2B integration environments. Strong foundation in relational databases, API design, and full-stack development.",
+    "experience": [
+      {
+        "title": "Software Engineer",
+        "company": "Qbarters Pvt Ltd",
+        "duration": "Jul 2021 – Dec 2022",
+        "location": "Bangalore, India",
+        "domain": "Backend & Full-Stack Development",
+        "responsibilities": [
+          "Developed and maintained 6 production applications with high deployment stability",
+          "Designed and implemented a payment page using JavaScript Payment SDK",
+          "Integrated SQL database for transaction tracking and persistence",
+          "Built real-time delivery tracking using JavaScript, WebSockets, and SQL",
+          "Implemented backend and frontend features using Python and JavaScript",
+          "Worked with relational databases using primary key-based data modeling",
+          "Collaborated with product, design, and QA teams in agile environment"
+        ]
+      },
+      {
+        "title": "Software Engineer Intern",
+        "company": "Letsgettin Pvt Ltd",
+        "duration": "Jan 2021 – Jun 2021",
+        "location": "Bangalore, India",
+        "domain": "Software Development",
+        "responsibilities": [
+          "Fixed bugs during deployment and improved overall code quality",
+          "Participated in sprint planning and agile development cycles",
+          "Created case models aligned with business and product requirements"
+        ]
+      }
+    ],
+    "education": [
+      "Master's in Computer Science, University of Alabama at Birmingham, USA (Jan 2023 – Apr 2025) — GPA: 3.30/4.00",
+      "Bachelor of Technology in Computer Science, Jain University, Bangalore, India (Jan 2019 – Jul 2022) — CGPA: 7.89/10",
+      "AWS Certified Developer Associate (DVA-C02)"
+    ],
+    "certifications": [
+      "AWS Certified Developer Associate (DVA-C02)",
+      "AWS Certified Cloud Practitioner (CLF-C02)"
+    ],
+    "key_projects": [
+      "Student Database System (Feb 2022 – Jun 2022): Co-led development of a Python web application to manage student academic data. Designed dashboard interface and integrated SQL database for storage and retrieval.",
+      "Progressive Web Chat App (Feb 2021 – May 2021): Built a secure chat system using Python with encryption and PWA principles for cross-platform usability."
+    ]
+  }
 }

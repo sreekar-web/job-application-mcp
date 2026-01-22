@@ -17,5 +17,11 @@ venv/
 # Logs
 *.log
 
-# Generated files (optional – we can keep JSON if you want)
-# decisions/job_decisions.json
+# Generated/test data (do not commit)
+data/jobs_raw.json
+data/jobs_classified.json
+decisions/*.json
+decisions/decisions.log
+jobs/jobs.json
+applications.csv
+documents/

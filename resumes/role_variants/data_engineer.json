@@ -10,9 +10,41 @@
     "Spark",
     "SQL"
   ],
-  "allowed_experience_titles": [],
+  "allowed_experience_titles": [
+    "Software Engineer",
+    "Junior Software Engineer",
+    "Data Engineer",
+    "Analytics Engineer"
+  ],
   "excluded_skills": [
     "Selenium",
     "EDI"
-  ]
+  ],
+  "resume_sections": {
+    "summary": "Data engineer with experience building ETL pipelines and working with SQL databases. Proficient in data transformation, database optimization, and analytics-focused development. Strong foundation in relational databases and data-driven problem solving.",
+    "experience": [
+      {
+        "title": "Software Engineer",
+        "company": "Qbarters Pvt Ltd",
+        "duration": "Jul 2021 – Dec 2022",
+        "location": "Bangalore, India",
+        "domain": "Backend & Data Engineering",
+        "responsibilities": [
+          "Integrated SQL database for transaction tracking and persistence",
+          "Built real-time delivery tracking using JavaScript, WebSockets, and SQL",
+          "Worked with relational databases using primary key-based data modeling",
+          "Optimized database queries for performance and scalability"
+        ]
+      }
+    ],
+    "education": [
+      "Master's in Computer Science, University of Alabama at Birmingham, USA (Jan 2023 – Apr 2025) — GPA: 3.30/4.00",
+      "Bachelor of Technology in Computer Science, Jain University, Bangalore, India (Jan 2019 – Jul 2022) — CGPA: 7.89/10",
+      "Key Subjects: Data Science, Database Systems, Machine Learning"
+    ],
+    "certifications": [
+      "AWS Certified Developer Associate (DVA-C02)",
+      "AWS Certified Cloud Practitioner (CLF-C02)"
+    ]
+  }
 }
