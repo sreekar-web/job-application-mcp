@@ -1,0 +1,22 @@
+{
+  "role_family": "backend_engineer",
+  "allowed_skills": [
+    "Java",
+    "JavaScript",
+    "MySQL",
+    "Python",
+    "SQL"
+  ],
+  "primary_focus": [
+    "Python",
+    "Java",
+    "SQL",
+    "REST"
+  ],
+  "allowed_experience_titles": [],
+  "excluded_skills": [
+    "Kubernetes",
+    "Terraform",
+    "Selenium"
+  ]
+}

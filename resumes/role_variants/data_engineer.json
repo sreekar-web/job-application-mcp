@@ -1,0 +1,18 @@
+{
+  "role_family": "data_engineer",
+  "allowed_skills": [
+    "MySQL",
+    "SQL"
+  ],
+  "primary_focus": [
+    "ETL",
+    "Airflow",
+    "Spark",
+    "SQL"
+  ],
+  "allowed_experience_titles": [],
+  "excluded_skills": [
+    "Selenium",
+    "EDI"
+  ]
+}

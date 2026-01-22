@@ -1,0 +1,32 @@
+{
+    "engineering": [
+        "Software Engineer",
+        "Backend Engineer",
+        "Frontend Engineer",
+        "Full Stack Engineer"
+    ],
+    "data": [
+        "Data Engineer",
+        "Data Analyst",
+        "Analytics Engineer"
+    ],
+    "devops": [
+        "DevOps Engineer",
+        "Site Reliability Engineer",
+        "Platform Engineer"
+    ],
+    "qa": [
+        "QA Engineer",
+        "SDET",
+        "Automation Test Engineer"
+    ],
+    "integration": [
+        "Integration Engineer",
+        "EDI Developer",
+        "Middleware Engineer"
+    ],
+    "product": [
+        "Technical Product Manager",
+        "Technical Program Manager"
+    ]
+}

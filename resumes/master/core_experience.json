@@ -1,0 +1,89 @@
+[{
+  "job_experience": [
+    {
+      "company": "Zentech Consulting Inc",
+      "location": "Texas, USA",
+      "role": "EDI Analyst",
+      "start_date": "July 2025",
+      "end_date": "Present",
+      "domain": "EDI / B2B Integration",
+      "responsibilities": [
+        "Designed and built end-to-end EDI interfaces using SEEBURGER BIS",
+        "Configured AS2 connections including certificates, encryption, and partner relations",
+        "Established and maintained FTP, SFTP (client/server), and AS2 connections",
+        "Set up routing rules, communication parameters, and partner/local addresses",
+        "Configured EDI envelopes (ISA/GS, UNB/UNZ) per partner requirements",
+        "Created and managed inbound and outbound trading partner entities",
+        "Maintained partner profiles including identities, protocols, message types, and routing rules",
+        "Implemented entity-level validations for partner-specific compliance",
+        "Executed SSC (SEEBURGER Security Compliance) tests",
+        "Developed EDI mappings for XML, EDIFACT, and ANSI X12 using BIC Mapping Designer",
+        "Built mappings for ORDERS, DESADV, INVOIC, 850, 856, and 810 document types",
+        "Implemented complex transformation logic using loops, conditions, and custom functions",
+        "Used MapDB for lookups, code translations, defaults, and partner-specific rules",
+        "Scheduled outbound transmissions and configured inbound polling",
+        "Handled partner onboarding including requirement analysis, testing, and go-live",
+        "Connected mappings from repository to Mapping Management for runtime execution",
+        "Monitored EDI message flow and resolved transmission, mapping, and compliance issues"
+      ]
+    },
+    {
+      "company": "Letsgettin Pvt Ltd",
+      "location": "Bangalore, India",
+      "role": "EDI Analyst",
+      "start_date": "January 2021",
+      "end_date": "December 2022",
+      "domain": "EDI / Retail & Logistics Integration",
+      "responsibilities": [
+        "Supported high-volume EDI transactions for retail and logistics partners",
+        "Built and maintained AS2 and SFTP connections including certificate exchange",
+        "Configured splitters and mergers for batch and multi-document processing",
+        "Managed Mapping Repository and Mapping Management with proper versioning",
+        "Configured partner connections, channels, and business processes",
+        "Coordinated mapping deployments across development, test, and production environments",
+        "Managed sender-receiver relationships for multi-partner integrations",
+        "Updated entities for endpoint changes and certificate renewals",
+        "Implemented outbound scheduling based on SLAs and inbound polling",
+        "Supported end-to-end EDI flows for orders, shipments, invoices, and acknowledgments",
+        "Ensured correct interchange, group, and transaction set processing",
+        "Tested partner connectivity and resolved transmission and handshake issues",
+        "Implemented and monitored functional acknowledgments (997 / CONTRL)",
+        "Handled data enrichment, segment validations, and partner-specific checks",
+        "Conducted unit testing, system testing, and partner certification",
+        "Used SEEBURGER monitoring tools to reprocess failed messages",
+        "Resolved issues related to duplicate messages, missing segments, format errors, and envelope validation"
+      ]
+    },
+    {
+      "company": "Qbarters Pvt Ltd",
+      "location": "Bangalore, India",
+      "role": "Junior Software Engineer",
+      "start_date": "July 2021",
+      "end_date": "December 2022",
+      "domain": "Software Development",
+      "responsibilities": [
+        "Developed and maintained 6 production applications with high deployment stability",
+        "Designed and implemented a payment page using JavaScript Payment SDK",
+        "Integrated SQL database for transaction tracking and persistence",
+        "Built real-time delivery tracking using JavaScript, WebSockets, and SQL",
+        "Implemented backend and frontend features using Python and JavaScript",
+        "Worked with relational databases using primary key-based data modeling",
+        "Collaborated with product, design, and QA teams in agile environment"
+      ]
+    },
+    {
+      "company": "Letsgettin Pvt Ltd",
+      "location": "Bangalore, India",
+      "role": "Software Engineer Intern",
+      "start_date": "January 2021",
+      "end_date": "June 2021",
+      "domain": "Software Development",
+      "responsibilities": [
+        "Fixed bugs during deployment and improved overall code quality",
+        "Participated in sprint planning and agile development cycles",
+        "Created case models aligned with business and product requirements"
+      ]
+    }
+     ]
+    }
+]

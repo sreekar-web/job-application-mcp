@@ -1,0 +1,110 @@
+[
+  {
+    "company": "spotify",
+    "role": "Audience Development Partner Manager (Contract)",
+    "role_family": "integration_engineer",
+    "resume_variant": "integration_engineer",
+    "match_score": 2,
+    "final_score": 60,
+    "decision": "SKIP",
+    "reason": "2 key skills matched; partial role alignment; detailed JD",
+    "apply_url": "https://jobs.lever.co/spotify/015ad88e-c31d-4d01-830c-974fa8f202bb",
+    "evaluated_at": "2026-01-21T23:20:16.060741Z"
+  },
+  {
+    "company": "spotify",
+    "role": "Data Scientist - Finance Data & Insights, Ads and Podcasts",
+    "role_family": "backend_engineer",
+    "resume_variant": "backend_engineer",
+    "match_score": 2,
+    "final_score": 60,
+    "decision": "SKIP",
+    "reason": "2 key skills matched; partial role alignment; detailed JD",
+    "apply_url": "https://jobs.lever.co/spotify/6dfd1d6f-5efc-473a-aa48-8026eea476fc",
+    "evaluated_at": "2026-01-21T23:20:16.061747Z"
+  },
+  {
+    "company": "spotify",
+    "role": "Editor",
+    "role_family": "integration_engineer",
+    "resume_variant": "integration_engineer",
+    "match_score": 2,
+    "final_score": 60,
+    "decision": "SKIP",
+    "reason": "2 key skills matched; partial role alignment; detailed JD",
+    "apply_url": "https://jobs.lever.co/spotify/44168e72-5ac5-4d6b-a486-9564025751e9",
+    "evaluated_at": "2026-01-21T23:20:16.061747Z"
+  },
+  {
+    "company": "spotify",
+    "role": "Editor",
+    "role_family": "integration_engineer",
+    "resume_variant": "integration_engineer",
+    "match_score": 2,
+    "final_score": 60,
+    "decision": "SKIP",
+    "reason": "2 key skills matched; partial role alignment; detailed JD",
+    "apply_url": "https://jobs.lever.co/spotify/e51725d1-0edd-4754-9c01-d4566d1aaca3",
+    "evaluated_at": "2026-01-21T23:20:16.062748Z"
+  },
+  {
+    "company": "spotify",
+    "role": "Global Classical Editor",
+    "role_family": "integration_engineer",
+    "resume_variant": "integration_engineer",
+    "match_score": 2,
+    "final_score": 50,
+    "decision": "SKIP",
+    "reason": "2 key skills matched; partial role alignment; limited JD detail",
+    "apply_url": "https://jobs.lever.co/spotify/f8d4783a-c863-4473-81b6-99177d06faa7",
+    "evaluated_at": "2026-01-21T23:20:16.072985Z"
+  },
+  {
+    "company": "spotify",
+    "role": "Head of Editorial, Northern Europe (UK, IE, NL)",
+    "role_family": "integration_engineer",
+    "resume_variant": "integration_engineer",
+    "match_score": 2,
+    "final_score": 60,
+    "decision": "SKIP",
+    "reason": "2 key skills matched; partial role alignment; detailed JD",
+    "apply_url": "https://jobs.lever.co/spotify/ef7a0b27-c432-4dda-a8c6-95575914691c",
+    "evaluated_at": "2026-01-21T23:20:16.072985Z"
+  },
+  {
+    "company": "spotify",
+    "role": "Project Manager - Music Go-To-Market",
+    "role_family": "integration_engineer",
+    "resume_variant": "integration_engineer",
+    "match_score": 2,
+    "final_score": 60,
+    "decision": "SKIP",
+    "reason": "2 key skills matched; partial role alignment; detailed JD",
+    "apply_url": "https://jobs.lever.co/spotify/c67a7843-c7d5-433b-9124-0f141c7420b2",
+    "evaluated_at": "2026-01-21T23:20:16.074998Z"
+  },
+  {
+    "company": "spotify",
+    "role": "Senior Content Designer - Consumer Experience",
+    "role_family": "integration_engineer",
+    "resume_variant": "integration_engineer",
+    "match_score": 2,
+    "final_score": 60,
+    "decision": "SKIP",
+    "reason": "2 key skills matched; partial role alignment; detailed JD",
+    "apply_url": "https://jobs.lever.co/spotify/105aa2e0-e1ce-47c1-9d6e-0659e5b02882",
+    "evaluated_at": "2026-01-21T23:20:16.074998Z"
+  },
+  {
+    "company": "spotify",
+    "role": "Senior Fullstack Engineer - Platforms & Partner Experience",
+    "role_family": "backend_engineer",
+    "resume_variant": "backend_engineer",
+    "match_score": 2,
+    "final_score": 60,
+    "decision": "SKIP",
+    "reason": "2 key skills matched; partial role alignment; detailed JD",
+    "apply_url": "https://jobs.lever.co/spotify/2fb93dd1-0fe0-4357-82dc-51f81b1eb4d1",
+    "evaluated_at": "2026-01-21T23:20:16.075684Z"
+  }
+]

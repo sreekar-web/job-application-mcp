@@ -1,0 +1,21 @@
+{
+  "role_family": "integration_engineer",
+  "allowed_skills": [
+    "AS2",
+    "EDI",
+    "EDIFACT",
+    "Editor",
+    "X12"
+  ],
+  "primary_focus": [
+    "EDI",
+    "X12",
+    "AS2",
+    "MFT"
+  ],
+  "allowed_experience_titles": [],
+  "excluded_skills": [
+    "React",
+    "Frontend"
+  ]
+}
